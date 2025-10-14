@@ -1,6 +1,6 @@
 package models
 
-type book struct {
+type Book struct {
 	BookID    int    `json:"book_id"`
 	BookName  string `json:"book_name"`
 	Author    string `json:"author"`
