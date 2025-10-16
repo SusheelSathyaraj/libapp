@@ -12,9 +12,9 @@ type BookService struct {
 }
 
 // constructor
-func NewBookService(repo *repository.BookRepository) *BookService {
+func NewBookService(repo repository.BookRepository) *BookService {
 	return &BookService{
-		repo: *repo,
+		repo: repo,
 	}
 }
 

@@ -15,11 +15,11 @@ func NewMemoryBookRepo() *MemoryBookRepo {
 	}
 }
 
-func (r *MemoryBookRepo) Create(book *models.Book) error {
+func (r *MemoryBookRepo) Create(book *models.Book) (*models.Book, error) {
 	if _, exists := r.books[book.BookID]; exists {
-		return errors.New("book already exists")
+		return nil, errors.New("book already exists")
 	}
 	//add the book to the map
 	r.books[book.BookID] = book
-	return nil
+	return book, nil
 }

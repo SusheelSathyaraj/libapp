@@ -14,6 +14,8 @@ func SetupRoutes(bookHandler *handlers.BookHandler) *mux.Router {
 
 	//adding logging middleware
 	router.Use(middleware.LoggingMiddleware)
+	//adding recovery middleware
+	router.Use(middleware.RecoveryMiddleware)
 
 	router.HandleFunc("/books", bookHandler.CreateBook).Methods(http.MethodPost)
 
