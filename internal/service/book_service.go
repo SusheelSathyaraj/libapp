@@ -4,6 +4,8 @@ import (
 	"errors"
 	"libapp/internal/models"
 	"libapp/internal/repository"
+
+	"github.com/google/uuid"
 )
 
 // dependency injection
@@ -21,13 +23,11 @@ func NewBookService(repo repository.BookRepository) *BookService {
 // create method
 func (s *BookService) CreateBook(book *models.Book) (*models.Book, error) {
 	//validations
-	if book.BookID == 0 {
-		return nil, errors.New("BookID cannot be empty")
-	}
 	if book.BookName == "" {
 		return nil, errors.New("BookName cannot be empty")
 	}
 
+	book.BookID = uuid.New().String()
 	//call repository
 	createdBook, err := s.repo.Create(book)
 	if err != nil {
