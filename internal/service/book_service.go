@@ -44,3 +44,16 @@ func (s *BookService) GetAllBooks() ([]*models.Book, error) {
 	}
 	return booksList, nil
 }
+
+// getbookbyid method
+func (s *BookService) GetBookByID(book_id string) (*models.Book, error) {
+	//validation
+	if book_id == "" {
+		return nil, errors.New("id cannot be empty")
+	}
+	bookDetails, err := s.repo.GetBookByID(book_id)
+	if err != nil {
+		return nil, err
+	}
+	return bookDetails, nil
+}

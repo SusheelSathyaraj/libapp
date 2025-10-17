@@ -5,6 +5,8 @@ import (
 	"libapp/internal/models"
 	"libapp/internal/service"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type BookHandler struct {
@@ -60,4 +62,28 @@ func (h *BookHandler) GetAllBooks(w http.ResponseWriter, r *http.Request) {
 
 	//send response
 	json.NewEncoder(w).Encode(booksList)
+}
+
+func (h *BookHandler) GetBookByID(w http.ResponseWriter, r *http.Request) {
+	var book models.Book
+	//extract id from path
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	//decode json
+	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+	//service layer
+	bookDetails, err := h.service.GetBookByID(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	//set response headers
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
+
+	//send response
+	json.NewEncoder(w).Encode(bookDetails)
 }

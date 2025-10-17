@@ -39,3 +39,14 @@ func (r *MemoryBookRepo) GetAllBooks() ([]*models.Book, error) {
 
 	return books, nil
 }
+
+func (r *MemoryBookRepo) GetBookByID(book_id string) (*models.Book, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	book, exists := r.books[book_id]
+	if !exists {
+		return nil, errors.New("book not found")
+	}
+	return book, nil
+}
