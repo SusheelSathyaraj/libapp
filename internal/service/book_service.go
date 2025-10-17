@@ -35,3 +35,12 @@ func (s *BookService) CreateBook(book *models.Book) (*models.Book, error) {
 	}
 	return createdBook, nil
 }
+
+// getallbooks method
+func (s *BookService) GetAllBooks() ([]*models.Book, error) {
+	booksList, err := s.repo.GetAllBooks()
+	if err != nil {
+		return nil, err
+	}
+	return booksList, nil
+}

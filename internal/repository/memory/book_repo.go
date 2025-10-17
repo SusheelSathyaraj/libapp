@@ -27,3 +27,15 @@ func (r *MemoryBookRepo) Create(book *models.Book) (*models.Book, error) {
 	r.books[book.BookID] = book
 	return book, nil
 }
+
+func (r *MemoryBookRepo) GetAllBooks() ([]*models.Book, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	books := make([]*models.Book, 0, len(r.books))
+	for _, book := range r.books {
+		books = append(books, book)
+	}
+
+	return books, nil
+}
