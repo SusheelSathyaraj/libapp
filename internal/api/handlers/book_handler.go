@@ -97,3 +97,19 @@ func (h *BookHandler) UpdateBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application-json")
 	json.NewEncoder(w).Encode(updatedBookDetails)
 }
+
+func (h *BookHandler) DeleteBook(w http.ResponseWriter, r *http.Request) {
+	//extract id from path
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	err := h.service.DeleteBook(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	//response
+	w.Header().Set("Content-Type", "application-json")
+	w.WriteHeader(http.StatusAccepted)
+}

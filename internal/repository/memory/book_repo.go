@@ -79,3 +79,16 @@ func (r *MemoryBookRepo) UpdateBook(id string, updatedbook *models.Book) (*model
 	return book, nil
 
 }
+
+func (r *MemoryBookRepo) DeleteBook(id string) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	_, exists := r.books[id]
+	if !exists {
+		return errors.New("book does not exist")
+	}
+
+	delete(r.books, id)
+	return nil
+}

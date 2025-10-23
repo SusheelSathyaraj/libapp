@@ -62,11 +62,24 @@ func (s *BookService) GetBookByID(book_id string) (*models.Book, error) {
 func (s *BookService) UpdateBook(book_id string, updatedBook *models.Book) (*models.Book, error) {
 	//validation
 	if book_id == "" {
-		return nil, errors.New("id cannot be empty")
+		return nil, errors.New("bookid cannot be empty")
 	}
 	updatedBookDetails, err := s.repo.UpdateBook(book_id, updatedBook)
 	if err != nil {
 		return nil, err
 	}
 	return updatedBookDetails, nil
+}
+
+// deletebook method
+func (s *BookService) DeleteBook(book_id string) error {
+	//validation
+	if book_id == "" {
+		return errors.New("bookid cannot be empty")
+	}
+	err := s.repo.DeleteBook(book_id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
