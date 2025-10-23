@@ -50,3 +50,32 @@ func (r *MemoryBookRepo) GetBookByID(book_id string) (*models.Book, error) {
 	}
 	return book, nil
 }
+
+func (r *MemoryBookRepo) UpdateBook(id string, updatedbook *models.Book) (*models.Book, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	book, exists := r.books[id]
+	if !exists {
+		return nil, errors.New("book does not exist")
+	}
+
+	if updatedbook.BookName != "" {
+		book.BookName = updatedbook.BookName
+	}
+	if updatedbook.Author != "" {
+		book.Author = updatedbook.Author
+	}
+	if updatedbook.Genre != "" {
+		book.Genre = updatedbook.Genre
+	}
+	if updatedbook.ISBN != 0 {
+		book.ISBN = updatedbook.ISBN
+	}
+	book.Available = updatedbook.Available
+
+	r.books[id] = book
+
+	return book, nil
+
+}

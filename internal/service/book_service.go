@@ -57,3 +57,16 @@ func (s *BookService) GetBookByID(book_id string) (*models.Book, error) {
 	}
 	return bookDetails, nil
 }
+
+// updateBook method
+func (s *BookService) UpdateBook(book_id string, updatedBook *models.Book) (*models.Book, error) {
+	//validation
+	if book_id == "" {
+		return nil, errors.New("id cannot be empty")
+	}
+	updatedBookDetails, err := s.repo.UpdateBook(book_id, updatedBook)
+	if err != nil {
+		return nil, err
+	}
+	return updatedBookDetails, nil
+}

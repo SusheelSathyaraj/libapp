@@ -87,3 +87,27 @@ func (h *BookHandler) GetBookByID(w http.ResponseWriter, r *http.Request) {
 	//send response
 	json.NewEncoder(w).Encode(bookDetails)
 }
+
+func (h *BookHandler) UpdateBook(w http.ResponseWriter, r *http.Request) {
+	var book models.Book
+	//extract id from path
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	//decode json
+	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	//service layer
+	updatedBookDetails, err := h.service.UpdateBook(id, &book)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	//send response
+	w.Header().Set("Content-Type", "application-json")
+	json.NewEncoder(w).Encode(updatedBookDetails)
+}

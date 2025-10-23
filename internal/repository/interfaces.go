@@ -6,4 +6,5 @@ type BookRepository interface {
 	GetAllBooks() ([]*models.Book, error)
 	GetBookByID(book_id string) (*models.Book, error)
 	Create(book *models.Book) (*models.Book, error)
+	UpdateBook(id string, book *models.Book) (*models.Book, error)
 }
